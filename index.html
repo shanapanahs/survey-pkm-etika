@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey PKM Etika - 3 Magic Words</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .magic-words {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .magic-word {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #f8f9ff, #e6e9f7);
+            border-left: 5px solid #667eea;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .radio-item:hover, .checkbox-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+
+        .radio-item input, .checkbox-item input {
+            width: auto;
+        }
+
+        .likert-scale {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .likert-item {
+            text-align: center;
+            padding: 15px 5px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .likert-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: scale(1.05);
+        }
+
+        .likert-item input {
+            margin-bottom: 5px;
+        }
+
+        .likert-labels {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+        }
+
+        .scenario {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .submit-section {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+        }
+
+        .thank-you {
+            color: white;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .magic-words {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .likert-scale {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .likert-labels {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Survey PKM Etika</h1>
+            <p>3 Magic Words untuk Anak SD</p>
+            <div class="magic-words">
+                <div class="magic-word">🙏 TERIMA KASIH</div>
+                <div class="magic-word">😔 MAAF</div>
+                <div class="magic-word">🤝 PERMISI</div>
+            </div>
+        </div>
+
+        <form class="form-content" id="surveyForm">
+            <!-- Bagian A: Data Responden -->
+            <div class="section">
+                <h3><div class="section-icon">A</div>Data Responden</h3>
+                
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap:</label>
+                    <input type="text" id="nama" name="nama" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kelas">Kelas:</label>
+                    <select id="kelas" name="kelas" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                        <option value="4">Kelas 4</option>
+                        <option value="5">Kelas 5</option>
+                        <option value="6">Kelas 6</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="umur">Umur:</label>
+                    <input type="number" id="umur" name="umur" min="7" max="13" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Jenis Kelamin:</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="laki" name="gender" value="laki-laki" required>
+                            <label for="laki">👦 Laki-laki</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="perempuan" name="gender" value="perempuan" required>
+                            <label for="perempuan">👧 Perempuan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sekolah">Nama Sekolah:</label>
+                    <input type="text" id="sekolah" name="sekolah" required>
+                </div>
+            </div>
+
+            <!-- Bagian B: Pemahaman 3 Magic Words -->
+            <div class="section">
+                <h3><div class="section-icon">B</div>Pemahaman 3 Magic Words</h3>
+                
+                <div class="form-group">
+                    <label>Apakah kamu sudah tahu 3 Magic Words sebelum kegiatan PKM ini?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="tahu_ya" name="tahu_sebelumnya" value="ya" required>
+                            <label for="tahu_ya">✅ Ya, sudah tahu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="tahu_tidak" name="tahu_sebelumnya" value="tidak" required>
+                            <label for="tahu_tidak">❌ Tidak, baru tahu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="tahu_sedikit" name="tahu_sebelumnya" value="sedikit" required>
+                            <label for="tahu_sedikit">🤔 Tahu sedikit</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seberapa paham kamu tentang kapan harus menggunakan kata-kata ini?</label>
+                    <div class="likert-labels">
+                        <div>Tidak Paham</div>
+                        <div>Kurang Paham</div>
+                        <div>Cukup Paham</div>
+                        <div>Paham</div>
+                        <div>Sangat Paham</div>
+                    </div>
+                    <div class="likert-scale">
+                        <div class="likert-item">
+                            <input type="radio" name="tingkat_pemahaman" value="1" required>
+                            <div>😕</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="tingkat_pemahaman" value="2" required>
+                            <div>😐</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="tingkat_pemahaman" value="3" required>
+                            <div>🙂</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="tingkat_pemahaman" value="4" required>
+                            <div>😊</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="tingkat_pemahaman" value="5" required>
+                            <div>😄</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian C: Situasi dan Penerapan -->
+            <div class="section">
+                <h3><div class="section-icon">C</div>Situasi dan Penerapan</h3>
+                
+                <div class="form-group">
+                    <label>Situasi 1:</label>
+                    <div class="scenario">
+                        🎁 Temanmu memberikan pensil kepadamu karena pensilmu hilang. Apa yang akan kamu katakan?
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="situasi1" value="terima_kasih" required>
+                            <label>"Terima kasih"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi1" value="maaf" required>
+                            <label>"Maaf"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi1" value="permisi" required>
+                            <label>"Permisi"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi1" value="tidak_bilang" required>
+                            <label>Tidak bilang apa-apa</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Situasi 2:</label>
+                    <div class="scenario">
+                        💥 Kamu tidak sengaja menabrak temanmu di koridor sekolah. Apa yang akan kamu katakan?
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="situasi2" value="terima_kasih" required>
+                            <label>"Terima kasih"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi2" value="maaf" required>
+                            <label>"Maaf"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi2" value="permisi" required>
+                            <label>"Permisi"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi2" value="tidak_bilang" required>
+                            <label>Tidak bilang apa-apa</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Situasi 3:</label>
+                    <div class="scenario">
+                        🚶‍♂️ Kamu ingin lewat tapi ada temanmu yang sedang berdiri di depanmu. Apa yang akan kamu katakan?
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="situasi3" value="terima_kasih" required>
+                            <label>"Terima kasih"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi3" value="maaf" required>
+                            <label>"Maaf"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi3" value="permisi" required>
+                            <label>"Permisi"</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="situasi3" value="tidak_bilang" required>
+                            <label>Tidak bilang apa-apa</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian D: Frekuensi Penggunaan -->
+            <div class="section">
+                <h3><div class="section-icon">D</div>Frekuensi Penggunaan</h3>
+                
+                <div class="form-group">
+                    <label>Seberapa sering kamu menggunakan kata "Terima Kasih" dalam sehari?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="freq_terimakasih" value="tidak_pernah" required>
+                            <label>❌ Tidak pernah</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_terimakasih" value="jarang" required>
+                            <label>🔸 Jarang (1-2 kali)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_terimakasih" value="kadang" required>
+                            <label>🔶 Kadang-kadang (3-5 kali)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_terimakasih" value="sering" required>
+                            <label>✅ Sering (lebih dari 5 kali)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seberapa sering kamu menggunakan kata "Maaf" ketika berbuat salah?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="freq_maaf" value="tidak_pernah" required>
+                            <label>❌ Tidak pernah</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_maaf" value="jarang" required>
+                            <label>🔸 Jarang</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_maaf" value="kadang" required>
+                            <label>🔶 Kadang-kadang</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_maaf" value="selalu" required>
+                            <label>✅ Selalu</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seberapa sering kamu menggunakan kata "Permisi" ketika ingin lewat atau mengganggu?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="freq_permisi" value="tidak_pernah" required>
+                            <label>❌ Tidak pernah</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_permisi" value="jarang" required>
+                            <label>🔸 Jarang</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_permisi" value="kadang" required>
+                            <label>🔶 Kadang-kadang</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="freq_permisi" value="selalu" required>
+                            <label>✅ Selalu</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian E: Evaluasi Kegiatan PKM -->
+            <div class="section">
+                <h3><div class="section-icon">E</div>Evaluasi Kegiatan PKM</h3>
+                
+                <div class="form-group">
+                    <label>Bagaimana perasaanmu tentang kegiatan PKM 3 Magic Words ini?</label>
+                    <div class="likert-labels">
+                        <div>Sangat Tidak Suka</div>
+                        <div>Tidak Suka</div>
+                        <div>Biasa Saja</div>
+                        <div>Suka</div>
+                        <div>Sangat Suka</div>
+                    </div>
+                    <div class="likert-scale">
+                        <div class="likert-item">
+                            <input type="radio" name="evaluasi_kegiatan" value="1" required>
+                            <div>😢</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="evaluasi_kegiatan" value="2" required>
+                            <div>😕</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="evaluasi_kegiatan" value="3" required>
+                            <div>😐</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="evaluasi_kegiatan" value="4" required>
+                            <div>😊</div>
+                        </div>
+                        <div class="likert-item">
+                            <input type="radio" name="evaluasi_kegiatan" value="5" required>
+                            <div>😍</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Apakah kegiatan ini membantu kamu memahami pentingnya 3 Magic Words?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="manfaat_kegiatan" value="sangat_membantu" required>
+                            <label>⭐ Sangat membantu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="manfaat_kegiatan" value="membantu" required>
+                            <label>✅ Membantu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="manfaat_kegiatan" value="cukup_membantu" required>
+                            <label>🔶 Cukup membantu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="manfaat_kegiatan" value="kurang_membantu" required>
+                            <label>🔸 Kurang membantu</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="manfaat_kegiatan" value="tidak_membantu" required>
+                            <label>❌ Tidak membantu</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Apa yang paling kamu suka dari kegiatan ini?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="hal_disukai" value="permainan" id="suka_permainan">
+                            <label for="suka_permainan">🎮 Permainan yang seru</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="hal_disukai" value="cerita" id="suka_cerita">
+                            <label for="suka_cerita">📚 Cerita yang menarik</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="hal_disukai" value="praktek" id="suka_praktek">
+                            <label for="suka_praktek">🎭 Praktek langsung</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="hal_disukai" value="teman" id="suka_teman">
+                            <label for="suka_teman">👥 Bermain dengan teman</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="hal_disukai" value="pemateri" id="suka_pemateri">
+                            <label for="suka_pemateri">👨‍🏫 Kakak yang mengajar</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Apakah kamu akan terus menggunakan 3 Magic Words setelah kegiatan ini?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="komitmen" value="pasti" required>
+                            <label>💪 Pasti akan terus menggunakan</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="komitmen" value="mungkin" required>
+                            <label>🤔 Mungkin akan menggunakan</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="komitmen" value="tidak_yakin" required>
+                            <label>😐 Tidak yakin</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="komitmen" value="tidak" required>
+                            <label>❌ Tidak akan menggunakan</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian F: Saran dan Masukan -->
+            <div class="section">
+                <h3><div class="section-icon">F</div>Saran dan Masukan</h3>
+                
+                <div class="form-group">
+                    <label for="saran">Apa saran kamu untuk kegiatan PKM selanjutnya? (Opsional)</label>
+                    <textarea id="saran" name="saran" rows="4" placeholder="Tuliskan saran kamu di sini..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pesan">Ada pesan atau ucapan terima kasih untuk kakak-kakak PKM? (Opsional)</label>
+                    <textarea id="pesan" name="pesan" rows="3" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">🚀 Kirim Survey</button>
+                <p class="thank-you">Terima kasih sudah mengisi survey ini! 🙏</p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Animasi submit
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '⏳ Mengirim...';
+            submitBtn.disabled = true;
+            
+            // Simulasi pengiriman
+            setTimeout(() => {
+                submitBtn.innerHTML = '✅ Berhasil Dikirim!';
+                submitBtn.style.background = 'linear-gradient(45deg, #4CAF50, #45a049)';
